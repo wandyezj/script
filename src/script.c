@@ -1,5 +1,16 @@
 #include <stdio.h>
 #include <stdbool.h> // https://en.cppreference.com/w/c/types/boolean
+
+//
+// restrictions
+//
+
+// maximum number of lines a script may have
+const unsigned int max_line = 1000;
+
+// maximum number of columns each line may have
+const unsigned int max_column = 200;
+
 char* version = "0.0.0";
 
 void print_version() {
@@ -39,6 +50,20 @@ bool is_newline(char c) {
 
 bool is_hash(char c) {
     return c == '#';
+}
+
+bool is_quote_double(char c) {
+    return c == '"';
+}
+
+// https://en.wikipedia.org/wiki/Bracket
+
+bool is_bracket_round_open(char c) {
+    return c == '(';
+}
+
+bool is_bracket_round_close(char c){
+    return c == ')';
 }
 
 void detect_characters_in_file(char* file_path) {
@@ -81,26 +106,77 @@ void detect_characters_in_file(char* file_path) {
 }
 
 enum character_type {
+    // #
     hash,
+
+    // 
     space,
+
+    // \n
     newline,
 
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    upper,
+
+    // abcdefghijklmnopqrstuvwxyz
+    lower,
+
+    // 0123456789
+    number,
+
+    // "
+    quote_double,
+
+    // (
+    bracket_round_open,
+    // )
+    bracket_round_close,
 
     unknown,
 };
 
 enum character_type get_character_type(char c) {
-    if (is_newline(c)) {
-        return newline;
-    }
-
+    // can simplify by creating an array of function pointers and iterating through.
     if (is_hash(c)) {
         return hash;
     }
 
+    if (is_space(c)){
+        return space;
+    }
+
+    if (is_newline(c)) {
+        return newline;
+    }
+
+    if (is_upper(c)) {
+        return upper;
+    }
+
+    if (is_lower(c)){
+        return lower;
+    }
+
+    if (is_number(c)) {
+        return number;
+    }
+
+    if (is_quote_double(c)) {
+        return quote_double;
+    }
+
+    if (is_bracket_round_open(c)) {
+        return bracket_round_open;
+    }
+
+    if (is_bracket_round_close(c)) {
+        return bracket_round_close;
+    }
 
     return unknown;
 }
+
+
 
 int execute_script_file(char* file_path) {
     int c;
@@ -111,10 +187,29 @@ int execute_script_file(char* file_path) {
         return 1;
     }
 
+    // debugging variables
+    bool print_character_line_column = false;
+
+    unsigned int line = 1;
+    unsigned int column = 1;
+
     bool inside_comment = false;
     while ((c = getc(file)) != EOF) {
 
+        if (line > max_line) {
+            printf("\nERROR: maximum number of lines exceeded. scripts may only have %i lines", max_line);
+            return 1;
+        }
+
+        if (line > max_line) {
+            printf("\nERROR: maximum characters in line %i exceeded. scripts may only have %i characters per line", line, max_column);
+            return 1;
+        }
+
         enum character_type t = get_character_type(c);
+        if (print_character_line_column) {
+            printf("\nline: %i column: %i, character [%c]\n", line, column, c);
+        }
 
         switch (t) {
             case hash:
@@ -122,6 +217,18 @@ int execute_script_file(char* file_path) {
                 break;
             case newline:
                 inside_comment = false;
+                line += 1;
+                column = 1;
+                break;
+            case bracket_round_open:
+            case bracket_round_close:
+            case quote_double:
+            case lower:
+                break;
+            case unknown:
+                if (!inside_comment) {
+                    printf("\nline: %i column: %i, unknown character [%c]\n", line, column, c);
+                }
                 break;
             default:
                 if (!inside_comment) {
@@ -130,21 +237,7 @@ int execute_script_file(char* file_path) {
                 
                 break;
         }
-
-        // if (is_newline(c) ) {
-        //     // end any single line comment
-        //     if(inside_comment) {
-        //         inside_comment = false;
-        //     }
-
-        // } else if (is_hash(c)) {
-        //     inside_comment = true;
-        // }
-
-        // if (!inside_comment) {
-        //     // can do some other things
-        //     printf("%c", c);
-        // }
+        column +=1;
 
     }
 
