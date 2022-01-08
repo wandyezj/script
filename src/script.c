@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <stdbool.h> // https://en.cppreference.com/w/c/types/boolean
 
+#include "constants.h"
+#include "characters.h"
+#include "tokenize.h"
+
 //
 // restrictions
 //
 
-// maximum number of lines a script may have
-const unsigned int max_line = 1000;
 
-// maximum number of columns each line may have
-const unsigned int max_column = 200;
 
 char* version = "0.0.0";
 
@@ -17,54 +17,6 @@ void print_version() {
     printf("%s", version);
 }
 
-/*
- * inclusive of begin and end
- */
-bool is_between(char c, char begin, char end) {
-    return c >= begin && c <= end;
-}
-
-//
-// character comparisons
-//
-
-bool is_upper(char c) {
-    return is_between(c, 'A', 'Z');
-}
-
-bool is_lower(char c) {
-    return is_between(c, 'a', 'z');
-}
-
-bool is_number(char c) {
-    return is_between(c, '0', '9');
-}
-
-bool is_space(char c) {
-    return c == ' ';
-}
-
-bool is_newline(char c) {
-    return c == '\n';
-}
-
-bool is_hash(char c) {
-    return c == '#';
-}
-
-bool is_quote_double(char c) {
-    return c == '"';
-}
-
-// https://en.wikipedia.org/wiki/Bracket
-
-bool is_bracket_round_open(char c) {
-    return c == '(';
-}
-
-bool is_bracket_round_close(char c){
-    return c == ')';
-}
 
 void detect_characters_in_file(char* file_path) {
     int c;
@@ -103,77 +55,6 @@ void detect_characters_in_file(char* file_path) {
     } else {
         printf("failed to open file [%s]", file_path);
     }
-}
-
-enum character_type {
-    // #
-    hash,
-
-    // 
-    space,
-
-    // \n
-    newline,
-
-    // ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    upper,
-
-    // abcdefghijklmnopqrstuvwxyz
-    lower,
-
-    // 0123456789
-    number,
-
-    // "
-    quote_double,
-
-    // (
-    bracket_round_open,
-    // )
-    bracket_round_close,
-
-    unknown,
-};
-
-enum character_type get_character_type(char c) {
-    // can simplify by creating an array of function pointers and iterating through.
-    if (is_hash(c)) {
-        return hash;
-    }
-
-    if (is_space(c)){
-        return space;
-    }
-
-    if (is_newline(c)) {
-        return newline;
-    }
-
-    if (is_upper(c)) {
-        return upper;
-    }
-
-    if (is_lower(c)){
-        return lower;
-    }
-
-    if (is_number(c)) {
-        return number;
-    }
-
-    if (is_quote_double(c)) {
-        return quote_double;
-    }
-
-    if (is_bracket_round_open(c)) {
-        return bracket_round_open;
-    }
-
-    if (is_bracket_round_close(c)) {
-        return bracket_round_close;
-    }
-
-    return unknown;
 }
 
 
