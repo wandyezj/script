@@ -43,6 +43,14 @@ int main(int argc, char **argv)
     printf("%s\n", argv[0]);
     printf("Hello World!\n");
 
+    if (argc != 2) {
+        // should pass in the file path
+        printf("usage: script file");
+        return 1;
+    }
+
+    char* file_path = argv[1];
+
     // read in file and print it out
 
     // https://stackoverflow.com/questions/3463426/in-c-how-should-i-read-a-text-file-and-print-all-strings#:~:text=The%20simplest%20way%20is%20to%20read%20a%20character%2C,number%2C%20and%20a%20plain%20char%20may%20be%20unsigned.
@@ -51,7 +59,7 @@ int main(int argc, char **argv)
 
     int c;
     FILE *file;
-    file = fopen("test.txt", "r");
+    file = fopen(file_path, "r");
     if (file) {
         while ((c = getc(file)) != EOF) {
             putchar(c);
@@ -78,6 +86,8 @@ int main(int argc, char **argv)
         }
             
         fclose(file);
+    } else {
+        printf("failed to open file [%s]", file_path);
     }
 
 
