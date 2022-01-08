@@ -1,65 +1,70 @@
+# makefile to construct script executable and tests
+
 # variables
 CC = clang
 
-
-
+# sources
 src = ./src
 test = ./test
 
+# outputs
+# everything goes in bin to make it easy to .gitignore and clean
 bin = ./bin
 obj = $(bin)/obj
 bin_test = $(bin)/test
 
-
-test_files = $(bin_test)/basic.test.txt
-
+#
 # files
+#
 script = $(bin)/script
 
-script_objects = $(bin)/script.o  $(bin)/constants.o $(bin)/characters.o $(bin)/tokenize.o
+test_files = \
+	$(bin_test)/basic.test.txt
 
+script_objects = \
+	$(obj)/script.o \
+	$(obj)/constants.o \
+	$(obj)/characters.o \
+	$(obj)/tokenize.o
+
+#
 # rules
-all: clean dirs $(script) $(test_files)
+#
 
-run:
-	cd ./bin && ./script
+all: dirs $(script) $(test_files)
+
+# makefile macros
+# $@ : $<
+# $@ item on left side of :
+# $< first item on the right side of :
 
 # main file
-$(script): bin $(script_objects)
-	$(CC) -o $(script) $(script_objects)
+$(script): $(script_objects)
+	$(CC) -o $@ $<
 
 # individual object files
-# $(ODIR)/%.o: %.c $(DEPS)
-# 	$(CC) -c -o $@ $<
-
-# $< first item in the dependency list (right side of :s)
-# $@ name of item on left side of :
-
-$(bin)/script.o: $(src)/script.c $(bin)/constants.h $(bin)/characters.h $(bin)/tokenize.h
+# specific header dependencies
+$(obj)/script.o: $(src)/script.c $(src)/constants.h $(src)/characters.h $(src)/tokenize.h
 	$(CC) -c $< -o $@
 
-$(bin)/constants.o: $(src)/constants.c $(bin)/constants.h
+$(obj)/constants.o: $(src)/constants.c $(src)/constants.h
 	$(CC) -c $< -o $@
 
-$(bin)/characters.o: $(src)/characters.c $(bin)/characters.h
+$(obj)/characters.o: $(src)/characters.c $(src)/characters.h
 	$(CC) -c $< -o $@
 
-$(bin)/tokenize.o: $(src)/tokenize.c $(bin)/constants.h $(bin)/tokenize.h 
+$(obj)/tokenize.o: $(src)/tokenize.c $(src)/constants.h $(src)/tokenize.h 
 	$(CC) -c $< -o $@
-
 
 # headers
-$(bin)/constants.h:
-$(bin)/tokenize.h:
-$(bin)/characters.h:
-
+# simply look at source
+$(src)%.h: $(src)%.h
 
 # test files
-$(bin_test)/basic.test.txt: $(test)/basic.test.txt bin/test
-	cp $(test)/basic.test.txt $(bin)/test
+$(bin_test)/%.test.txt: $(test)/%.test.txt $(bin_test)
+	cp $< $@
 
 # directories
-
 dirs: $(bin) $(obj) $(bin_test)
 
 $(bin):
