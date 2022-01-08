@@ -2,13 +2,19 @@
 CC = clang
 
 src = ./src
+test = ./test
+
 bin = ./bin
+bin_test = $(bin)/test
+
+
+test_files = $(bin_test)/basic.test.txt
 
 # files
 script = $(bin)/script
 
 # rules
-all:  $(script) $(bin)/test.txt
+all:  $(script) $(test_files)
 
 run:
 	cd ./bin && ./script
@@ -23,8 +29,11 @@ $(bin)/script.o: $(src)/script.c
 ./bin:
 	mkdir bin
 
-$(bin)/test.txt: $(src)/test.txt
-	cp $(src)/test.txt $(bin)/test.txt
+$(bin_test)/basic.test.txt: $(test)/basic.test.txt bin/test
+	cp $(test)/basic.test.txt $(bin)/test
+
+bin/test:
+	mkdir -p bin/test
 
 clean:
 	rm -rf bin
