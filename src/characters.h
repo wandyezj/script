@@ -3,32 +3,32 @@
 
 typedef enum character_type {
     // #
-    hash,
+    character_type_hash,
 
     // 
-    space,
+    character_type_space,
 
     // \n
-    newline,
+    character_type_newline,
 
     // ABCDEFGHIJKLMNOPQRSTUVWXYZ
-    upper,
+    character_type_upper,
 
     // abcdefghijklmnopqrstuvwxyz
-    lower,
+    character_type_lower,
 
     // 0123456789
-    number,
+    character_type_number,
 
     // "
-    quote_double,
+    character_type_quote_double,
 
     // (
-    bracket_round_open,
+    character_type_bracket_round_open,
     // )
-    bracket_round_close,
+    character_type_bracket_round_close,
 
-    unknown,
+    character_type_unknown,
 } character_type;
 
 character_type get_character_type(char c);
@@ -43,6 +43,7 @@ bool is_number(char c);
 
 bool is_space(char c);
 bool is_newline(char c);
+bool is_carriage_return(char c);
 
 bool is_hash(char c);
 bool is_quote_double(char c);

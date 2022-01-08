@@ -1,7 +1,7 @@
-// #ifndef HEADER_FILE_constants
-// #define HEADER_FILE_constants
+//
+// Restrictions to allow fixed buffer size
+//
 
-//#pragma once
 
 // maximum number of lines a script may have
 extern const unsigned int max_line;
@@ -9,5 +9,6 @@ extern const unsigned int max_line;
 // maximum number of columns each line may have
 extern const unsigned int max_column;
 
+// maximum size for an individual token
+extern const unsigned int max_token_buffer;
 
-//#endif

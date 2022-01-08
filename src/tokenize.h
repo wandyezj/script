@@ -1,12 +1,11 @@
-// #ifndef HEADER_FILE_tokenize
-// #define HEADER_FILE_tokenize
 
 int tokenize_script_file(char* file_path);
 
 
-enum token_type {
-    comment,
-    string,
-};
+typedef enum token_type {
+    token_type_comment,
+    token_type_string,
 
-// #endif
+    // don't know what this token is
+    token_type_unknown,
+} token_type;

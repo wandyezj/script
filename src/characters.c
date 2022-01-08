@@ -3,42 +3,42 @@
 character_type get_character_type(char c) {
     // can simplify by creating an array of function pointers and iterating through.
     if (is_hash(c)) {
-        return hash;
+        return character_type_hash;
     }
 
     if (is_space(c)){
-        return space;
+        return character_type_space;
     }
 
     if (is_newline(c)) {
-        return newline;
+        return character_type_newline;
     }
 
     if (is_upper(c)) {
-        return upper;
+        return character_type_upper;
     }
 
     if (is_lower(c)){
-        return lower;
+        return character_type_lower;
     }
 
     if (is_number(c)) {
-        return number;
+        return character_type_number;
     }
 
     if (is_quote_double(c)) {
-        return quote_double;
+        return character_type_quote_double;
     }
 
     if (is_bracket_round_open(c)) {
-        return bracket_round_open;
+        return character_type_bracket_round_open;
     }
 
     if (is_bracket_round_close(c)) {
-        return bracket_round_close;
+        return character_type_bracket_round_close;
     }
 
-    return unknown;
+    return character_type_unknown;
 }
 
 
@@ -72,6 +72,10 @@ bool is_space(char c) {
 
 bool is_newline(char c) {
     return c == '\n';
+}
+
+bool is_carriage_return(char c) {
+    return c == '\r';
 }
 
 bool is_hash(char c) {

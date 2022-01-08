@@ -43,7 +43,7 @@ $(script): $(script_objects)
 	$(CC) -o $@ $(script_objects)
 
 # individual object files
-# specific header dependencies
+# specific header dependencies ( avoids need to recompile everything if a single header changes)
 $(obj)/script.o: $(src)/script.c $(src)/constants.h $(src)/characters.h $(src)/tokenize.h
 	$(CC) -c $< -o $@
 
@@ -53,7 +53,7 @@ $(obj)/constants.o: $(src)/constants.c $(src)/constants.h
 $(obj)/characters.o: $(src)/characters.c $(src)/characters.h
 	$(CC) -c $< -o $@
 
-$(obj)/tokenize.o: $(src)/tokenize.c $(src)/constants.h $(src)/tokenize.h 
+$(obj)/tokenize.o: $(src)/tokenize.c $(src)/tokenize.h $(src)/constants.h $(src)/characters.h
 	$(CC) -c $< -o $@
 
 # headers
@@ -63,6 +63,7 @@ $(src)%.h: $(src)%.h
 # test files
 $(bin_test)/%.test.txt: $(test)/%.test.txt $(bin_test)
 	cp $< $@
+	
 
 # directories
 dirs: $(bin) $(obj) $(bin_test)

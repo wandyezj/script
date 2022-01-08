@@ -9,3 +9,18 @@ token {
 }
 
 break string into a stream of tokens
+
+# comment
+-> 
+[#, comment]
+
+# comment #
+-> [#, comment #]
+?
+
+a + b
+->
+[a, +, b]
+
+
+Assume random string of characters is an identifier or possibly an if
