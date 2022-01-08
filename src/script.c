@@ -39,8 +39,9 @@ bool is_newline(char c) {
 
 int main(int argc, char **argv) 
 {
-    printf("%i", argc);
-    printf("\nHello World!\n");
+    printf("%i\n", argc);
+    printf("%s\n", argv[0]);
+    printf("Hello World!\n");
 
     // read in file and print it out
 
@@ -55,15 +56,11 @@ int main(int argc, char **argv)
         while ((c = getc(file)) != EOF) {
             putchar(c);
 
-            if (c >= '0' && c <= '9') {
+            if (is_number(c)) {
                 printf("-");
             }
 
-            if (c == 'L') {
-                printf("*");
-            }
-
-            if (c >= 'a' && c <= 'z') {
+            if (is_lower(c)) {
                 printf(".");
             }
 
@@ -71,7 +68,7 @@ int main(int argc, char **argv)
                 printf("'");
             }
 
-            if (c == ' ') {
+            if (is_space(c)) {
                 printf("_");
             }
 
