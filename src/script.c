@@ -3,7 +3,7 @@
 char* version = "0.0.0";
 
 void print_version() {
-    printf(version);
+    printf("%s", version);
 }
 
 /*
