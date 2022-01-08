@@ -27,4 +27,4 @@ $(bin)/test.txt: $(src)/test.txt
 	cp $(src)/test.txt $(bin)/test.txt
 
 clean:
-	
+	rm -rf bin
