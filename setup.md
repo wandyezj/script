@@ -11,5 +11,3 @@
 [Get TCC](https://bellard.org/tcc/)
 
 > compile-run-with-tcc.cmd
-
-h
