@@ -40,7 +40,7 @@ all: dirs $(script) $(test_files)
 
 # main file
 $(script): $(script_objects)
-	$(CC) -o $@ $<
+	$(CC) -o $@ $(script_objects)
 
 # individual object files
 # specific header dependencies
