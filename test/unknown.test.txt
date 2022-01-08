@@ -1,0 +1,4 @@
+# unknown character
+# the smile counts as multiple unknown characters
+# this is because of utf-8 variable length encoding.
+ ☺ 
