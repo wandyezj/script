@@ -24,3 +24,7 @@ a + b
 
 
 Assume random string of characters is an identifier or possibly an if
+
+
+
+https://github.com/python/cpython/blob/main/Grammar/Tokens
