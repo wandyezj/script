@@ -59,3 +59,9 @@ Arithmetic expressions with PMA precedence.
 Arithmetic expressions with P ()
 
 
+
+# Questions
+
+Would it be better to implement in a high level language like TypeScript first?
+    - Allow formulation of algorithms before translating to c++
+    - TypeScript doesn't have the control needed for some of the types.

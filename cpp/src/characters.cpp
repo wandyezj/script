@@ -1,0 +1,97 @@
+#include "characters.h"
+
+Character get_character_type(char c) {
+    // can simplify by creating an array of function pointers and iterating through.
+    if (is_hash(c)) {
+        return Character::hash;
+    }
+
+    if (is_space(c)){
+        return Character::space;
+    }
+
+    if (is_newline(c)) {
+        return Character::newline;
+    }
+
+    if (is_upper(c)) {
+        return Character::upper;
+    }
+
+    if (is_lower(c)){
+        return Character::lower;
+    }
+
+    if (is_number(c)) {
+        return Character::number;
+    }
+
+    if (is_quote_double(c)) {
+        return Character::quote_double;
+    }
+
+    if (is_bracket_round_open(c)) {
+        return Character::bracket_round_open;
+    }
+
+    if (is_bracket_round_close(c)) {
+        return Character::bracket_round_close;
+    }
+
+    return Character::unknown;
+}
+
+
+
+/*
+ * inclusive of begin and end
+ */
+bool is_between(char c, char begin, char end) {
+    return c >= begin && c <= end;
+}
+
+//
+// character comparisons
+//
+
+bool is_upper(char c) {
+    return is_between(c, 'A', 'Z');
+}
+
+bool is_lower(char c) {
+    return is_between(c, 'a', 'z');
+}
+
+bool is_number(char c) {
+    return is_between(c, '0', '9');
+}
+
+bool is_space(char c) {
+    return c == ' ';
+}
+
+bool is_newline(char c) {
+    return c == '\n';
+}
+
+bool is_carriage_return(char c) {
+    return c == '\r';
+}
+
+bool is_hash(char c) {
+    return c == '#';
+}
+
+bool is_quote_double(char c) {
+    return c == '"';
+}
+
+// https://en.wikipedia.org/wiki/Bracket
+
+bool is_bracket_round_open(char c) {
+    return c == '(';
+}
+
+bool is_bracket_round_close(char c){
+    return c == ')';
+}

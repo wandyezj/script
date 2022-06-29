@@ -23,6 +23,7 @@ test_files = \
 
 script_objects = \
 	$(obj)/main.o \
+	$(obj)/characters.o \
 #
 # rules
 #
@@ -46,8 +47,8 @@ $(obj)/main.o: $(src)/main.cpp
 # $(obj)/constants.o: $(src)/constants.c $(src)/constants.h
 # 	$(CC) -c $< -o $@
 
-# $(obj)/characters.o: $(src)/characters.c $(src)/characters.h
-# 	$(CC) -c $< -o $@
+$(obj)/characters.o: $(src)/characters.cpp $(src)/characters.h
+	$(CC) -c $< -o $@
 
 # $(obj)/tokenize.o: $(src)/tokenize.c $(src)/tokenize.h $(src)/constants.h $(src)/characters.h
 # 	$(CC) -c $< -o $@
